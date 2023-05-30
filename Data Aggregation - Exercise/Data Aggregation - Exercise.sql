@@ -135,8 +135,7 @@ ORDER BY department_id;
 CREATE TABLE `salary_more_than_30000` AS SELECT * FROM
     employees
 WHERE
-    salary > 3000;
-
+    salary > 30000;
 
 DELETE FROM `salary_more_than_30000`
 WHERE
@@ -156,10 +155,18 @@ FROM
 GROUP BY department_id
 ORDER BY department_id ASC;
 
+-- 14. Employees Maximum Salaries
 
-select * from salary_more_than_30000;
+SELECT 
+    department_id, MAX(salary) AS 'max_salary'
+FROM
+    employees
+GROUP BY department_id
+HAVING `max_salary` < 30000
+    OR `max_salary` > 70000
+ORDER BY department_id ASC;
 
-select * from employees;
+
 
 
 
