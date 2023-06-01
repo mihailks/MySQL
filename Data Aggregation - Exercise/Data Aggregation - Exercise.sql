@@ -13,7 +13,10 @@ FROM
     
     
     -- 3. Longest Magic Wand Per Deposit Groups
-select * from wizzard_deposits;
+SELECT 
+    *
+FROM
+    wizzard_deposits;
 
 SELECT 
     deposit_group, MAX(magic_wand_size) AS longest_magic_want
@@ -47,9 +50,10 @@ SELECT
     deposit_group, SUM(deposit_amount) AS total_sum
 FROM
     wizzard_deposits
-    where magic_wand_creator = 'Ollivander family'
-    group by deposit_group
-    ORDER BY deposit_group;
+WHERE
+    magic_wand_creator = 'Ollivander family'
+GROUP BY deposit_group
+ORDER BY deposit_group;
     
  
 -- 7. Deposits Filter
@@ -121,7 +125,7 @@ ORDER BY deposit_group DESC , is_deposit_expired ASC;
 
 -- 12. Employees Minimum Salaries
  
- SELECT 
+SELECT 
     department_id, MIN(salary) AS `minimum_salary`
 FROM
     `employees`
@@ -137,7 +141,7 @@ CREATE TABLE `salary_more_than_30000` AS SELECT * FROM
 WHERE
     salary > 30000;
 
-DELETE FROM `salary_more_than_30000`
+DELETE FROM `salary_more_than_30000` 
 WHERE
     manager_id = 42;
 
@@ -148,7 +152,7 @@ SET
 WHERE
     department_id = 1;
     
-    SELECT 
+SELECT 
     department_id, AVG(salary) AS avg_salary
 FROM
     `salary_more_than_30000`
@@ -165,6 +169,58 @@ GROUP BY department_id
 HAVING `max_salary` < 30000
     OR `max_salary` > 70000
 ORDER BY department_id ASC;
+
+-- 15. Employees Count Salaries
+
+SELECT 
+    COUNT(*) AS 'count'
+FROM
+    `employees`
+WHERE
+    `manager_id` IS NULL;
+
+
+-- 16. 3rd Highest Salary*
+
+SELECT DISTINCT
+    `department_id`,
+    (SELECT DISTINCT
+            `salary`
+        FROM
+            `employees` AS `e1`
+        WHERE
+            `e1`.`department_id` = `employees`.`department_id`
+        ORDER BY `salary` DESC
+        LIMIT 1 OFFSET 2) AS `third_highest_salary`
+FROM
+    `employees`
+HAVING `third_highest_salary` IS NOT NULL
+ORDER BY `department_id`;
+
+
+-- 17. Salary Challenge**
+
+
+SELECT 
+    `first_name`, `last_name`, `department_id`
+FROM
+    `employees` AS `e1`
+WHERE
+    `salary` > (SELECT 
+            AVG(`salary`)
+        FROM
+            `employees` AS `e2`
+        WHERE
+            `e1`.`department_id` = `e2`.`department_id`)
+ORDER BY department_id , employee_id
+LIMIT 10ies
+
+SELECT 
+    `department_id`, SUM(`salary`) AS `total_salary`
+FROM
+    `employees`
+GROUP BY `department_id`
+ORDER BY `department_id`;
 
 
 
