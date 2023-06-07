@@ -85,7 +85,6 @@ SELECT REVERSE(`first_name`),
        `height` - 10,
        `country_id`,
        (SELECT `id` FROM `countries` WHERE `name` = 'Armenia')
-
 FROM `actors` AS `a`
          JOIN `countries` AS `c` ON `a`.`country_id` = `c`.`id`
 WHERE `a`.`id` <= 10;
