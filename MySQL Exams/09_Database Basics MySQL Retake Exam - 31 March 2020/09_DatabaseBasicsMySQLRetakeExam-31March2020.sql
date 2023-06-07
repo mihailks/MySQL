@@ -170,3 +170,52 @@ GROUP BY `photo_id`;
 
 -- 09. The photo on the tenth day of the month
 
+SELECT CONCAT(SUBSTRING(`description`, 1, 30), '...'),
+       `date`
+FROM `photos`
+WHERE DAY(`date`) = 10
+ORDER BY `date` DESC;
+
+
+-- 10. Get user’s photos count
+
+DELIMITER $$
+CREATE FUNCTION `udf_users_photos_count`(`username` VARCHAR(30))
+    RETURNS INT
+    DETERMINISTIC
+BEGIN
+    RETURN (SELECT COUNT(`up`.`photo_id`)
+            FROM `users` AS `u`
+                     JOIN `users_photos` AS `up` ON `u`.`id` = `up`.`user_id`
+            WHERE `u`.`username` = `username`);
+END $$
+DELIMITER ;
+
+
+SELECT COUNT(`up`.`photo_id`)
+FROM `users` AS `u`
+         JOIN `users_photos` AS `up` ON `u`.`id` = `up`.`user_id`
+WHERE `u`.`username` = 'ssantryd';
+
+-- 11. Increase user age
+
+DELIMITER $$
+CREATE PROCEDURE `udp_modify_user`(`address` VARCHAR(30), `town` VARCHAR(30))
+BEGIN
+
+    UPDATE `users` as u
+    join `addresses` as a on u.id = `a`.`user_id`
+    set age = `age`+10
+    WHERE a.`address` = `address` and a.`town`=`town`;
+
+
+END $$
+DELIMITER ;
+
+
+
+
+SELECT * from `users` as u
+    join `addresses` as a on u.id = `a`.`user_id`
+
+WHERE a.`address` = '97 Valley Edge Parkway' and a.`town`='Divinópolis';
