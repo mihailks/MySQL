@@ -142,7 +142,7 @@ SELECT `s`.`name`,
 FROM `stores` AS `s`
          LEFT JOIN `products_stores` AS `ps` ON `s`.`id` = `ps`.`store_id`
          LEFT JOIN `products` AS `p` ON `ps`.`product_id` = `p`.`id`
-GROUP BY `s`.`name`
+GROUP BY `s`.`name`,`s`.`id`
 ORDER BY `product_count` DESC, `avg` DESC, `s`.`id`;
 
 -- 08. Specific employee
