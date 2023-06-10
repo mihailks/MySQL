@@ -141,7 +141,97 @@ ORDER BY `games_count` DESC, `c`.`name`;
 
 -- 08. Games of 2022
 
+SELECT `g`.`name`,
+       `g`.`release_date`,
+       CONCAT(SUBSTRING(`g`.`description`, 1, 10), '...') AS `summary`,
+       CASE
+           WHEN MONTH(`g`.`release_date`) IN (1, 2, 3) THEN 'Q1'
+           WHEN MONTH(`g`.`release_date`) IN (4, 5, 6) THEN 'Q2'
+           WHEN MONTH(`g`.`release_date`) IN (7, 8, 9) THEN 'Q3'
+           WHEN MONTH(`g`.`release_date`) IN (10, 11, 12) THEN 'Q4'
+           END                                            AS `quarter`,
+       `t`.`name`
+
+FROM `games` AS `g`
+         JOIN `teams` AS `t` ON `g`.`team_id` = `t`.`id`
+WHERE `g`.`name` LIKE '%2'
+  AND MONTH(`g`.`release_date`) % 2 = 0
+  AND `g`.`release_date` LIKE '2022%'
+ORDER BY `quarter`;
 
 
+-- 09. Full info for games
 
 
+SELECT `g`.`name`,
+       IF(`g`.`budget` < 50000, 'Normal budget', 'Insufficient budget') AS `budget_level`,
+       `t`.`name`,
+       `a`.`name`
+FROM `categories` AS `c`
+         RIGHT JOIN `games_categories` AS `gc` ON `c`.`id` = `gc`.`category_id`
+         RIGHT JOIN `games` AS `g` ON `gc`.`game_id` = `g`.`id`
+         JOIN `teams` AS `t` ON `g`.`team_id` = `t`.`id`
+         JOIN `offices` AS `o` ON `t`.`office_id` = `o`.`id`
+         JOIN `addresses` AS `a` ON `o`.`address_id` = `a`.`id`
+WHERE `g`.`release_date` IS NULL
+  AND `c`.`name` IS NULL
+ORDER BY `g`.`name`;
+
+-- 10. Find all basic information for a game
+
+DELIMITER %%
+CREATE FUNCTION `udf_game_info_by_name`(`game_name` VARCHAR(20))
+    RETURNS TEXT
+    DETERMINISTIC
+BEGIN
+    RETURN (SELECT CONCAT_WS(' ', 'The', `g`.`name`, 'is developed by a', `t`.`name`, 'in an office with an address',
+                             `a`.`name`)
+            FROM `games` AS `g`
+                     JOIN `teams` AS `t` ON `g`.`team_id` = `t`.`id`
+                     JOIN `offices` AS `o` ON `t`.`office_id` = `o`.`id`
+                     JOIN `addresses` AS `a` ON `o`.`address_id` = `a`.`id`
+            WHERE `g`.`name` = `game_name`);
+END %%
+DELIMITER ;
+
+
+-- 11. Update Budget of the Games
+
+DELIMITER $$
+CREATE PROCEDURE `udp_update_budget`(`min_game_rating` FLOAT)
+BEGIN
+
+    UPDATE
+        `games` AS `g`
+            LEFT JOIN `games_categories` AS `gc` ON `g`.`id` = `gc`.`game_id`
+            LEFT JOIN `categories` AS `c` ON `gc`.`category_id` = `c`.`id`
+    SET `g`.`budget` = `g`.`budget` + 100000, `g`.`release_date` = DATE_ADD(`g`.`release_date`, INTERVAL 1 YEAR)
+    WHERE `c`.`id` IS NULL
+      AND `g`.`rating` > `min_game_rating`;
+END $$
+DELIMITER ;
+
+UPDATE
+    `games` AS `g`
+        LEFT JOIN `games_categories` AS `gc` ON `g`.`id` = `gc`.`game_id`
+        LEFT JOIN `categories` AS `c` ON `gc`.`category_id` = `c`.`id`
+SET `g`.`budget` = `g`.`budget` + 100000 , `g`.`release_date` = DATE_ADD(`g`.`release_date`, INTERVAL 1 YEAR)
+WHERE `c`.`id` IS NULL
+  AND `release_date` IS NOT NULL
+  AND `g`.`rating` > 8;
+
+
+SELECT *
+FROM `games` AS `g`
+         LEFT JOIN `games_categories` AS `gc` ON `g`.`id` = `gc`.`game_id`
+         LEFT JOIN `categories` AS `c` ON `gc`.`category_id` = `c`.`id`
+WHERE `c`.`id` IS NULL
+  AND `release_date` IS NOT NULL
+  AND `g`.`rating` > 8;
+
+SELECT *
+FROM `games` AS `g`
+WHERE `g`.`rating` > 8;
+
+UPDATE `games`
+SET `release_date` = DATE_ADD(`release_date`, INTERVAL 1 YEAR), `budget` = `budget` + 100000

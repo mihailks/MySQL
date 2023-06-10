@@ -85,6 +85,81 @@ CREATE TABLE `employees`
         FOREIGN KEY (`manager_id`) REFERENCES `employees` (`id`)
 );
 
+-- 02. Insert
+
+INSERT INTO `products_stores`(`product_id`, `store_id`)
+SELECT `p`.`id`,
+       1
+FROM `products` AS `p`
+         LEFT JOIN `products_stores` AS `ps`
+                   ON `p`.`id` = `ps`.`product_id`
+WHERE `store_id` IS NULL;
+
+-- 03. Update
+
+UPDATE `employees` AS `e`
+    JOIN `stores` AS `s` ON `e`.`store_id` = `s`.`id`
+SET `e`.`manager_id` = 3,
+    `salary`         = `salary` - 500
+WHERE YEAR(`hire_date`) > 2003
+  AND `s`.`name` != 'Cardguard'
+  AND `s`.`name` != 'Veribet';
+
+-- 04. Delete
+
+DELETE `e1`
+FROM `employees` AS `e1`
+         LEFT JOIN `employees` AS `e2` ON `e1`.`id` = `e1`.`manager_id`
+WHERE `e1`.`manager_id` IS NOT NULL
+  AND `e1`.`salary` >= 6000;
+
+-- 05. Employees
+
+
+SELECT `first_name`, `middle_name`, `last_name`, `salary`, `hire_date`
+FROM `employees`
+ORDER BY `hire_date` DESC;
+
+-- 06. Products with old pictures
+
+SELECT `pro`.`name`                                         AS `product_name`,
+       `pro`.`price`,
+       `pro`.`best_before`,
+       CONCAT(SUBSTRING(`pro`.`description`, 1, 10), '...') AS `short_description`,
+       `pic`.`url`
+FROM `products` AS `pro`
+         JOIN `pictures` AS `pic` ON `pro`.`picture_id` = `pic`.`id`
+WHERE CHAR_LENGTH(`description`) > 100
+  AND YEAR(`pic`.`added_on`) < 2019
+  AND `pro`.`price` > 20
+ORDER BY `pro`.`price` DESC;
+
+-- 07. Counts of products in stores
+
+SELECT `s`.`name`,
+       COUNT(`p`.`id`)            AS `product_count`,
+       ROUND(AVG(`p`.`price`), 2) AS `avg`
+FROM `stores` AS `s`
+         LEFT JOIN `products_stores` AS `ps` ON `s`.`id` = `ps`.`store_id`
+         LEFT JOIN `products` AS `p` ON `ps`.`product_id` = `p`.`id`
+GROUP BY `s`.`name`
+ORDER BY `product_count` DESC, `avg` DESC, `s`.`id`;
+
+-- 08. Specific employee
+
+SELECT CONCAT(`e`.`first_name`, ' ', `last_name`) AS `Full_name`,
+       `s`.`name`                                 AS `store_name`,
+       `a`.`name`                                 AS `address`,
+       `e`.`salary`
+FROM `employees` AS `e`
+         JOIN `stores` AS `s` ON `e`.`store_id` = `s`.`id`
+         JOIN `addresses` AS `a` ON `s`.`address_id` = `a`.`id`
+WHERE `e`.`salary` < 4000
+  AND `a`.`name` LIKE '%5%'
+  AND CHAR_LENGTH(`s`.`name`) > 8
+  AND `e`.`last_name` LIKE '%n'
+
+
 
 
 

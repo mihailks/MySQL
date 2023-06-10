@@ -69,3 +69,147 @@ CREATE TABLE `cars_drivers`
         FOREIGN KEY (`car_id`) REFERENCES `cars` (`id`),
     CONSTRAINT `fk_car_driver_driver` FOREIGN KEY (`driver_id`) REFERENCES `drivers` (`id`)
 );
+
+
+-- 02. Insert
+
+INSERT INTO `clients` (`full_name`, `phone_number`)
+SELECT CONCAT(`first_name`, ' ', `last_name`),
+       CONCAT('(088) 9999', `id` * 2)
+
+FROM `drivers`
+WHERE `id` BETWEEN 10 AND 20;
+
+-- 03. Update
+
+UPDATE `cars`
+SET `condition` = 'C'
+WHERE `make` != 'Mercedes-Benz'
+  AND (`mileage` >= 800000 || `cars`.`mileage` IS NULL)
+  AND `year` <= 2010;
+
+SELECT *
+FROM `cars`
+
+WHERE `make` != 'Mercedes-Benz'
+  AND `cars`.`mileage` IS NULL
+  AND `year` >= 2010;
+
+
+SELECT COUNT(*)
+FROM `cars`
+WHERE `condition` = 'C';
+
+
+-- 04. Delete
+
+
+DELETE `c`
+FROM `clients` AS `c`
+         LEFT JOIN `courses` AS `co` ON `c`.`id` = `co`.`client_id`
+WHERE CHAR_LENGTH(`full_name`) > 3
+  AND `co`.`client_id` IS NULL;
+
+
+-- 05. Cars
+SELECT `make`, `model`, `condition`
+FROM `cars`
+ORDER BY `id`;
+
+
+-- 06. Drivers and Cars
+
+SELECT `d`.`first_name`,
+       `d`.`last_name`,
+       `c`.`make`,
+       `c`.`model`,
+       `c`.`mileage`
+FROM `drivers` AS `d`
+         JOIN `cars_drivers` AS `cd` ON `d`.`id` = `cd`.`driver_id`
+         JOIN `cars` AS `c` ON `cd`.`car_id` = `c`.`id`
+WHERE `c`.`mileage` IS NOT NULL
+ORDER BY `c`.`mileage` DESC, `d`.`first_name`;
+
+-- 07. Number of courses
+
+SELECT `c`.`id`,
+       `c`.`make`,
+       `c`.`mileage`,
+       COUNT(`co`.`id`)           AS `count_of_courses`,
+       ROUND(AVG(`co`.`bill`), 2) AS `avg_bill`
+FROM `cars` AS `c`
+         LEFT JOIN `courses` AS `co` ON `c`.`id` = `co`.`car_id`
+GROUP BY `c`.`id`
+HAVING `count_of_courses` != 2
+ORDER BY `count_of_courses` DESC, `c`.`id`;
+
+-- 08. Regular clients
+
+SELECT `cl`.`full_name`,
+       COUNT(`co`.`car_id`),
+       SUM(`co`.`bill`)
+
+FROM `clients` AS `cl`
+         JOIN `courses` AS `co` ON `cl`.`id` = `co`.`client_id`
+WHERE SUBSTRING(`cl`.`full_name`, 2, 1) = 'a'
+GROUP BY `cl`.`full_name`
+HAVING COUNT(`co`.`car_id`) > 1
+ORDER BY `full_name`;
+
+
+-- 09. Full info for courses
+
+SELECT `a`.`name`,
+       IF(HOUR(`co`.`start`) BETWEEN 6 AND 20, 'Day', 'Night') AS `day_time`,
+       `co`.`bill`,
+       `cl`.`full_name`,
+       `ca`.`make`,
+       `ca`.`model`,
+       `cate`.`name`
+FROM `courses` AS `co`
+         JOIN `addresses` AS `a` ON `co`.`from_address_id` = `a`.`id`
+         JOIN `clients` AS `cl` ON `co`.`client_id` = `cl`.`id`
+         JOIN `cars` AS `ca` ON `co`.`car_id` = `ca`.`id`
+         JOIN `categories` AS `cate` ON `ca`.`category_id` = `cate`.`id`
+ORDER BY `co`.`id`;
+
+
+-- 10. Find all courses by client’s phone number
+
+DELIMITER $$
+CREATE FUNCTION `udf_courses_by_client`(`phone_num` VARCHAR(20))
+    RETURNS INT
+    DETERMINISTIC
+BEGIN
+    RETURN (SELECT COUNT(*)
+            FROM `courses` AS `co`
+                     JOIN `clients` AS `cl` ON `co`.`client_id` = `cl`.`id`
+            WHERE `cl`.`phone_number` = `phone_num`);
+END $$
+DELIMITER ;
+
+
+-- 11. Full info for address
+
+DELIMITER %%
+CREATE PROCEDURE `udp_courses_by_address`(`address_name` VARCHAR(100))
+BEGIN
+    SELECT `ad`.`name`,
+           `cl`.`full_name`,
+           CASE
+               WHEN `co`.`bill` <= 20 THEN 'Low'
+               WHEN `co`.`bill` <= 30 THEN 'Medium'
+               ELSE 'High'
+               END AS `level_of_bill`,
+           `ca`.`make`,
+           `ca`.`condition`,
+           cat.`name`
+    FROM `addresses` AS `ad`
+             JOIN `courses` AS `co` ON `ad`.`id` = `co`.`from_address_id`
+             JOIN `clients` AS `cl` ON `co`.`client_id` = `cl`.`id`
+             JOIN `cars` AS `ca` ON `co`.`car_id` = `ca`.`id`
+             JOIN `categories` AS `cat` ON `ca`.`category_id` = `cat`.`id`
+    where ad.`name` = `address_name`
+    ORDER BY ca.`make`, `cl`.`full_name`;
+END %%
+DELIMITER ;
