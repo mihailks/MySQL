@@ -1,0 +1,68 @@
+@import "https://use.fontawesome.com/releases/v5.15.4/css/all.css";
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,800;1,200;1,400;1,700;1,800&display=swap');
+
+body {
+    font-family: Raleway, sans-serif;
+}
+
+.site h2 {
+    font-size: 3rem;
+    font-weight: normal;
+}
+
+section {
+    max-width: 1880px;
+    margin: 1.5rem auto;
+    background-color: rgb(239, 239, 239);
+    height: calc(100vh - 1.5rem);
+    padding: 3rem 5rem;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    overflow: hidden;
+}
+
+.section1 {
+    position: relative;
+}
+
+.section1 .menu {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+}
+
+.section.section-info {
+    background-color: red;
+    flex: 0 0 50%
+}
+
+.section1 .section-img {
+    flex: 0 1 45%;
+}
+
+.section1 .hero-img {
+    position: absolute;
+    width: 50%;
+    bottom: 0;
+    right: 5rem
+;
+
+}
+
+
+.divider{
+    height: 3rem;
+    width: 1px;
+    background-color: black;
+}
+
+
+
+
+
+
+
+
+
+

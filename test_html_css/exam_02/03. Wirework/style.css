@@ -1,0 +1,107 @@
+@import "https://use.fontawesome.com/releases/v5.15.4/css/all.css";
+
+html {
+    font-family: Helvetica, sans-serif;
+}
+
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 2rem;
+}
+
+.titles {
+    display: flex;
+    align-items: center;
+}
+
+.main-title {
+    margin-right: 10px;
+}
+
+.sub-title {
+    padding-left: 10px;
+    border-left: 1px solid black;
+}
+
+.nav .list {
+    display: flex;
+    list-style: none;
+    gap: 1px;
+}
+
+.nav .list .nav-li {
+    padding: 0.6rem 1rem;
+    background-color: rgb(236, 236, 236);
+}
+
+.nav .list .nav-li.active {
+    background-color: rgb(226, 78, 42);
+}
+
+.nav a {
+    text-decoration: none;
+    color: black;
+    font-size: 12px;
+}
+
+.nav-li.active a {
+    text-decoration: none;
+    color: white;
+}
+
+.second-img-con {
+    width: 100%;
+}
+
+.second-img {
+    width: 100%;
+    height: 100%;
+    max-height: 660px;
+    object-fit: cover;
+}
+
+.section1-text {
+    background-color: rgb(226, 78, 42);
+    padding: 80px;
+    text-align: center;
+    color: white;
+}
+
+.section1-text a {
+    color: white;
+}
+
+.section2{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+
+.section2-info .section2-icons{
+    background-color: orange;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.section2-icons {
+    color: white;
+    font-size: 45px;
+    padding: 20px;
+}
+
+.section2-title {
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.section2-info-para{
+    text-align: center;
+}
+
+
+
+
+
+

@@ -1,0 +1,71 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.site {
+    font-family: Helvetica, sans-serif;
+    display: flex;
+    background-color: rgb(246, 248, 249);
+    font-weight: lighter;
+    letter-spacing: 0.1rem;
+    padding-top: 3rem;
+}
+img {
+    padding-top: 5rem;
+    padding-right: 4rem;
+}
+
+h1 {
+    font-size: 2.2rem;
+    margin: 1.5rem 1rem 3rem 4rem;
+    color: rgb(39, 50, 64);
+    font-weight: lighter;
+}
+
+.h3 {
+    font-size: 0.8rem;
+    margin: 3rem 1rem 0.5rem 4rem;
+    color: rgb(39, 50, 64);
+}
+
+p {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin: 2rem 1rem 2rem 4rem;
+    color: rgb(146, 155, 162);
+    max-width: 50%;
+}
+
+button {
+    font-size: 1.3rem;
+    color: white;
+    padding: 1rem;
+    border: 1px solid rgb(120, 110, 255);
+    border-radius: 4px;
+    font-weight: normal;
+}
+
+.contact {
+    margin-left: 4rem;
+    width: 13rem;
+    background-color: rgb(120, 110, 255);
+}
+
+.learn {
+    margin-left: 1rem;
+    width: 10rem;
+    border: 1px solid black;
+    color: rgb(61, 71, 84);
+}
+
+
+
+
+
+
+
+
+
+
