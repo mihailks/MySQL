@@ -112,6 +112,7 @@ html {
     display: flex;
     padding: 185px 185px;
     gap: 150px;
+    background-color: rgb(250, 249, 247);
 }
 
 .jobs .jobs-title {
@@ -121,18 +122,112 @@ html {
 }
 
 .jobs .search-title {
-    color: gray;
+    color: rgb(92, 92, 91);
     font-size: 25px;
 }
 
 .jobs .search-job {
     background-color: lightgray;
-    color: gray;
+    color: rgb(92, 92, 91);
     font-size: 30px;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border-radius: 40px;
+    margin: 5px;
+    display: inline-block;
 }
+
+.section3 {
+    background-color: rgb(241, 236, 229);
+    padding-top: 50px;
+    padding-bottom: 50px;
+    position: relative;
+}
+
+.section3 .section3-title {
+    font-size: 55px;
+    color: #d2481e;
+    font-weight: normal;
+    margin-left: 185px;
+    max-width: 600px;
+    display: inline-block;
+}
+
+.section3 a {
+    color: rgb(92, 92, 91);
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 40px;
+    border: 1px solid rgb(92, 92, 91);
+    margin: 5px;
+    display: inline-block;
+    position: absolute;
+    left: 830px;
+}
+
+.section4{
+    display: flex;
+    padding: 200px 185px;
+    gap: 100px;
+    align-items: center;
+    background-color: rgb(250, 249, 247);
+}
+
+.section4 .section4-title{
+    font-size: 55px;
+    color: var(--first-button);
+    font-weight: normal;
+}
+
+.section4 .section4-img-cont{
+    width: 40%;
+}
+
+.section4 .section4-p{
+    font-size: 40px;
+}
+
+.section4 .section4-text{
+    max-width: 50%;
+}
+
+.section5{
+    display: flex;
+    margin: 150px 150px;
+    gap: 100px;
+    justify-content: flex-start;
+}
+
+.section5 h2{
+    font-size: 65px;
+    font-weight: normal;
+    margin-bottom: 60px;
+    line-height: 1.3;
+}
+
+.section5 img{
+    width: 60%;
+}
+.section5 .part-one img{
+    margin-bottom: 40px;
+}
+
+.part-one a{
+    color: rgb(92, 92, 91);
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 40px;
+    border: 1px solid rgb(92, 92, 91);
+    margin-top: 100px;
+}
+
+
+
+
 
 
 
