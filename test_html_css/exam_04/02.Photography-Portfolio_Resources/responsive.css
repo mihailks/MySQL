@@ -1,0 +1,44 @@
+@media (max-width: 600px) {
+
+    .navigation-nav {
+        display: none;
+    }
+
+    .navigation-header {
+        position: absolute;
+    }
+
+    .home-text {
+        display: none;
+    }
+
+    .home-tab-selector-cards-container {
+        grid-template-columns: 1fr;
+    }
+
+    .home-image-container {
+        display: none;
+    }
+
+    .section-container {
+        padding-top: 35px;
+        padding-bottom: 35px;
+    }
+
+    .home-text10 {
+        margin-right: 20px;
+    }
+
+    .home-top-part {
+        flex-direction: column;
+    }
+
+    .home-links-container {
+        flex-direction: column;
+        gap: 30px
+    }
+    .home-subscribe-container{
+        width: 100%;
+    }
+
+}

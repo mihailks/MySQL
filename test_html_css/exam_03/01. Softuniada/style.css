@@ -1,0 +1,35 @@
+@import "https://use.fontawesome.com/releases/v5.15.4/css/all.css";
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 2rem;
+    max-width: 1200px;
+    height: 600px;
+    box-shadow: -3px 4px 18px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: -3px 4px 18px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -3px 4px 18px 0px rgba(0,0,0,0.75);
+    margin: 0 auto;
+}
+
+.site-header {
+    background-color: orange;
+    padding: 18px;
+    color: white;
+}
+
+.section1 {
+    padding: 25px 20px 60px;
+    border-bottom: 1px solid black;
+}
+
+.section2 {
+    padding: 25px 20px 60px;
+}
+
+
+

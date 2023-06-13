@@ -1,0 +1,62 @@
+@media (max-width: 600px) {
+    .main-nav {
+        display: none;
+    }
+
+    .hero-head {
+        background-color: black;
+        background-image: none;
+        text-align: center;
+        min-height: 500px;
+    }
+
+    .wrapper{
+        width: auto;
+        max-width: 500px;
+        text-align: center;
+    }
+
+    .hero-head .wrapper{
+        width: auto;
+        max-width: 500px;
+    }
+    .wrapper h1{
+        font-size: 26px;
+        float: none;
+        margin: 0 auto;
+        line-height: 58px
+    }
+    .hero-head .goal{
+        font-size: 14px;
+        max-width: 100%;
+        float: none;
+        margin: 0 auto;
+    }
+
+
+
+    .content-wrap {
+        flex-direction: column;
+        margin: 0 auto;
+    }
+
+    .col{
+        text-align: center;
+    }
+
+    .main-foot .wrapper{
+        flex-direction: column;
+    }
+
+    .main-foot .bottom .copyright{
+        text-align: center;
+        display: block;
+        float: none;
+    }
+
+}
+
+
+
+
+
